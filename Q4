@@ -1,0 +1,102 @@
+#include <iostream>
+#include <string>
+#include <fstream>  
+
+using namespace std;
+
+
+struct SalesRecord {
+    string month;
+    float amount;
+};
+
+
+void inputSalesData(SalesRecord salesData[], int size) {
+    string months[12] = {"January", "February", "March", "April", "May", "June", 
+                         "July", "August", "September", "October", "November", "December"};
+    
+    for (int i = 0; i < size; ++i) {
+        cout << "Enter sales for " << months[i] << ": ";
+        salesData[i].month = months[i];
+        cin >> salesData[i].amount;
+    }
+}
+
+
+void writeSalesDataToFile(SalesRecord salesData[], int size) {
+   
+    ofstream outFile("sales_data.txt");
+    
+    
+    if (outFile.is_open()) {
+        for (int i = 0; i < size; ++i) {
+          
+            outFile << salesData[i].month << "," << salesData[i].amount << endl;
+        }
+        outFile.close();
+        cout << "Sales data has been written to sales_data.txt" << endl;
+    } else {
+        cout << "Error opening file for writing!" << endl;
+    }
+}
+
+
+void readSalesDataFromFile(SalesRecord salesData[], int& size) {
+    ifstream inFile("sales_data.txt"); 
+    
+    
+    if (inFile.is_open()) {
+        size = 0;
+        string line;
+        while (getline(inFile, line)) {
+            size_t commaPos = line.find(',');
+            salesData[size].month = line.substr(0, commaPos);
+            salesData[size].amount = stof(line.substr(commaPos + 1));
+            size++;
+        }
+        inFile.close();
+    } else {
+        cout << "Error opening file for reading!" << endl;
+    }
+}
+
+
+float calculateYearlyAverage(SalesRecord salesData[], int size) {
+    float totalSales = 0;
+    for (int i = 0; i < size; ++i) {
+        totalSales += salesData[i].amount;
+    }
+    return totalSales / size;
+}
+
+
+void displayMonthsAboveAverage(SalesRecord salesData[], int size, float yearlyAverage) {
+    cout << "\nMonths with sales above the yearly average (" << yearlyAverage << "):\n";
+    for (int i = 0; i < size; ++i) {
+        if (salesData[i].amount > yearlyAverage) {
+            cout << salesData[i].month << ": " << salesData[i].amount << endl;
+        }
+    }
+}
+
+int main() {
+    const int NUM_MONTHS = 12;
+    SalesRecord salesData[NUM_MONTHS];  
+   
+    inputSalesData(salesData, NUM_MONTHS);
+    
+    
+    writeSalesDataToFile(salesData, NUM_MONTHS);
+    
+  
+    int size = 0;  
+    readSalesDataFromFile(salesData, size);
+    
+   
+    float yearlyAverage = calculateYearlyAverage(salesData, size);
+    
+    
+    displayMonthsAboveAverage(salesData, size, yearlyAverage);
+    
+    return 0;
+}
