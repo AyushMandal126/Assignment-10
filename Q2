@@ -1,0 +1,82 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+
+struct Marks {
+    float math;
+    float science;
+    float english;
+};
+
+
+struct Student {
+    int rollNo;
+    string name;
+    Marks marks;
+};
+
+
+float calculateAverage(Marks marks) {
+    return (marks.math + marks.science + marks.english) / 3.0;
+}
+
+int main() {
+    Student students[5];  // Array to store 5 students
+
+   
+    for (int i = 0; i < 5; ++i) {
+        cout << "Enter details for Student " << i + 1 << ":\n";
+        cout << "Roll Number: ";
+        cin >> students[i].rollNo;
+        cin.ignore();  // To ignore any extra newline characters left in the buffer
+
+        cout << "Name: ";
+        getline(cin, students[i].name);
+
+        cout << "Enter Marks:\n";
+        cout << "Math: ";
+        cin >> students[i].marks.math;
+
+        cout << "Science: ";
+        cin >> students[i].marks.science;
+
+        cout << "English: ";
+        cin >> students[i].marks.english;
+        cout << endl;
+    }
+
+    
+    float highestAverage = -1, lowestAverage = 101;
+    int highestIndex = -1, lowestIndex = -1;
+
+    for (int i = 0; i < 5; ++i) {
+        float average = calculateAverage(students[i].marks);
+
+        
+        if (average > highestAverage) {
+            highestAverage = average;
+            highestIndex = i;
+        }
+
+        
+        if (average < lowestAverage) {
+            lowestAverage = average;
+            lowestIndex = i;
+        }
+    }
+
+   
+    cout << "\nStudent with the highest average marks:\n";
+    cout << "Roll No: " << students[highestIndex].rollNo << endl;
+    cout << "Name: " << students[highestIndex].name << endl;
+    cout << "Average Marks: " << highestAverage << endl;
+
+   
+    cout << "\nStudent with the lowest average marks:\n";
+    cout << "Roll No: " << students[lowestIndex].rollNo << endl;
+    cout << "Name: " << students[lowestIndex].name << endl;
+    cout << "Average Marks: " << lowestAverage << endl;
+
+    return 0;
+}
