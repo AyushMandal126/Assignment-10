@@ -1,0 +1,63 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+struct Employee {
+    int member_id;
+    string Name;
+    float salary;
+};
+
+int main(){
+    Employee employees [10];
+    for (int i=0; i<10; i++){
+     cout<< "Employee : "<<i+1<<endl;   
+    cout<< "Enter id for Employee : "<<endl;
+    cin>> employees[i].member_id;
+    cout<< "Enter Name : "<<endl;
+    cin>> employees[i].Name;
+    cout<< "Enter the salary : "<<endl;
+    cin>> employees[i].salary;
+    }
+    
+    int i;
+    cout<< "See the details of all the employees (enter 1)"<<endl;
+    cout<< "Search for an employee by id. (enter 2)"<<endl;
+    cout<< "Increase the salary of all employees earning less than ₹30,000 by 10%.(enter 3)"<<endl;
+    cin>>i;
+    if(i==1) { 
+        cout<< "Member-ID   Name   Salary"<<endl;
+         for (int i = 0; i < 10; i++) {
+        cout << employees[i].member_id << "   " << employees[i].Name << "   " << employees[i].salary << endl;
+    }
+    }
+    else if ( i ==3) { 
+        for( i = 0 ; i<10 ; i++){
+            if ( employees[i].salary < 30000){
+                employees[i].salary= employees[i].salary  + employees[i].salary *0.1;
+            }
+        }
+        
+    }
+    else if ( i==2) {
+        int search_id;
+        cout<< "Enter the search ID : "<<endl;
+        cin>> search_id;
+        
+        if( employees[i].member_id == search_id){
+            cout << "ID : "<<employees[i].member_id<<endl;
+            cout << "Name : "<<employees[i].Name<<endl;
+            cout << "salary : "<<employees[i].salary<<endl;
+        }
+        else {
+            cout<< "Employee Not Found"<<endl;
+        }
+    
+    }
+    else {
+        cout<< "You Exited the programme"<<endl;
+    }
+    
+    return 0;
+}
